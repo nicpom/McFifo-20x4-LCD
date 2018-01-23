@@ -69,6 +69,7 @@ unsigned long previousMillis = 0;
 unsigned long currentMillis = 0;
 
 void setup() {
+  Serial.begin(9600);                  // start serial port
   lcd.createChar(0, bar);                    // create special character for progress bar
   lcd.begin(20, 4);                          // initialize 20*4 LCD
   lcd.setBacklight(255);                     // switch on display light
@@ -102,9 +103,6 @@ void setup() {
   lcd.write(0);
   }
   lcd.clear();
-  
-  // start serial port 
-  Serial.begin(9600);                  // start serial por
 }
 
 void loop() {
@@ -137,11 +135,6 @@ void loop() {
   if (fifoMessage.getNewPackageFlag())                     // there is new package received
   {
     package=fifoMessage.getPackage();
-    if(!fifoMessage.getFinishInitialFlag())              //it's first time receiving a package
-    {
-      lcd.clear();                                       // clear screen 
-      fifoMessage.setFinishInitialFlag();                // set the flag
-    }
   
     switch(package.command)                              // print package data
     {
